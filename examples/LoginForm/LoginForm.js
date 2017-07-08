@@ -1,40 +1,40 @@
-import React from 'react';
-import { assoc } from 'ramda';
-import { Effect, ModelWithEffect } from '../../build/index';
+import React from "react";
+import { assoc } from "ramda";
+import { Effect } from "../../build/index";
 
 // -- MODEL
 
 function init() {
-  return { email: '', password: '' };
+  return { email: "", password: "" };
 }
 
 // -- UPDATE
 
-function UpdateEmail(password) {
-  return { email, tag: 'UpdateEmail' };
+function UpdateEmail(email) {
+  return { email, tag: "UpdateEmail" };
 }
 
 function UpdatePassword(password) {
-  return { password, tag: 'UpdatePassword' };
+  return { password, tag: "UpdatePassword" };
 }
 
 function update(msg, model) {
   switch (msg.tag) {
     case "UpdateEmail":
       return {
-        model: assoc('email', msg.email, model),
-        effect: Effect.none()
+        model: assoc("email", msg.email, model),
+        effect: Effect.empty()
       };
 
     case "UpdatePassword":
-      console.log('UpdatePassword');
+      console.log("UpdatePassword");
       return {
-        model: assoc('password', msg.password, model),
-        effect: Effect.none()
+        model: assoc("password", msg.password, model),
+        effect: Effect.empty()
       };
 
     default:
-      return { model, effect: Effect.none() };
+      return { model, effect: Effect.empty() };
   }
 }
 
@@ -47,11 +47,13 @@ function LoginForm(props) {
     <div>
       <input
         value={model.email}
-        onChange={(ev) => updater(UpdateEmail(ev.target.value))}/>
+        onChange={ev => updater(UpdateEmail(ev.target.value))}
+      />
       <input
         value={model.password}
-        onChange={(ev) => updater(UpdatePassword(ev.target.value))}/>
-      <a onClick={onLoginPress} >Login</a>
+        onChange={ev => updater(UpdatePassword(ev.target.value))}
+      />
+      <a onClick={onLoginPress}>Login</a>
     </div>
   );
 }

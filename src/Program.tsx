@@ -1,33 +1,69 @@
-import React from 'react';
-import { ModelWithEffect } from './Effect';
+import React from "react";
+import Sub from "./sub";
+import { Msg } from "./msg";
+import { Effect, ModelWithEffect } from "./effect";
 
 interface ProgramProps {
-  Component: any
-  update: (msg: any, model: any) => ModelWithEffect<any>
-  init: () => any
+  Component: any;
+  update: (msg: Msg, model: any) => ModelWithEffect<any>;
+  init: () => ModelWithEffect<any>;
+  subscriptions?: (model: any) => Sub;
 }
 
 interface ProgramState {
-  model: any
+  model: any;
 }
 
 class Program extends React.Component<ProgramProps, ProgramState> {
+  readonly _subscriptions?: Sub;
+  private _isMounted: Boolean;
+
   constructor(props: ProgramProps) {
     super(props);
-    const { init } = props;
-    this.state = { model: init() };
+    const { init, subscriptions } = props;
+    const { model, effect } = init();
+    this.state = { model };
     this._updater = this._updater.bind(this);
+    this._isMounted = false;
+
+    if (typeof subscriptions === "function") {
+      this._subscriptions = subscriptions(model);
+    }
+
+    this._runEffect(effect);
   }
 
-  _updater(msg: any): void {
+  componentDidMount(): void {
+    this._isMounted = true;
+
+    if (this._subscriptions) {
+      this._subscriptions.run(this._updater);
+    }
+  }
+
+  componentWillUnmount(): void {
+    this._isMounted = false;
+  }
+
+  _updater(msg: Msg): void {
+    console.log("[Oolong] Running Update for ", msg.tag);
+
     const { update } = this.props;
     const { model, effect } = update(msg, this.state.model);
 
-    if (effect && effect.run) {
-      effect.run(this._updater);
+    if (this._isMounted) {
+      console.log("[Oolong] Setting state");
+      this.setState({ model }, () => {
+        this._runEffect(effect);
+      });
+    } else {
+      this._runEffect(effect);
     }
+  }
 
-    this.setState({ model });
+  _runEffect(effect: Effect): void {
+    console.log("[Oolong] Running Effect");
+    effect.run(this._updater);
   }
 
   render(): React.ReactElement<any> {

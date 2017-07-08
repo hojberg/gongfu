@@ -1,28 +1,50 @@
+import { Msg } from "./msg";
+import { Maybe, Just } from "./maybe";
+
 interface ModelWithEffect<M> {
-  model: M,
-  effect: Effect
+  model: M;
+  effect: Effect;
 }
 
-class Effect {
-  runner: (updater: (any) => void) => void
+type Effect = _Effect;
 
-  static of(runner) {
-    return new Effect(runner);
+type Updater = (msg: Msg) => void;
+type Runner = (updater: Updater) => void;
+
+function Effect(runner?: Runner): Effect {
+  return new _Effect(runner);
+}
+
+class _Effect {
+  readonly runner: Maybe<Runner>;
+
+  static of(runner?: Runner): Effect {
+    return Effect(runner);
   }
 
-  static none() {
-    return new Effect();
+  static empty(): Effect {
+    return Effect();
   }
 
-  constructor(runner?) {
-    this.runner = runner;
+  constructor(runner?: Runner) {
+    this.runner = Maybe(runner);
   }
 
-  run(updater: (any) => void) {
-    if (this.runner) {
-      this.runner(updater);
-    }
+  concat(that: Effect): Effect {
+    return Effect(done => {
+      this.runner.ap(Just(done));
+      that.runner.ap(Just(done));
+    });
+  }
+
+  run(updater: Updater) {
+    this.runner.ap(Just(updater));
   }
 }
 
-export { Effect, ModelWithEffect };
+namespace Effect {
+  export var of = _Effect.of;
+  export var empty = _Effect.empty;
+}
+
+export { ModelWithEffect, Effect };
