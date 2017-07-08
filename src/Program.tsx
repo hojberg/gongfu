@@ -46,13 +46,13 @@ class Program extends React.Component<ProgramProps, ProgramState> {
   }
 
   _updater(msg: Msg): void {
-    console.log("[Oolong] Running Update for ", msg.tag);
+    console.log("[Gongfu] Running Update for ", msg.tag);
 
     const { update } = this.props;
     const { model, effect } = update(msg, this.state.model);
 
     if (this._isMounted) {
-      console.log("[Oolong] Setting state");
+      console.log("[Gongfu] Setting state");
       this.setState({ model }, () => {
         this._runEffect(effect);
       });
@@ -62,7 +62,7 @@ class Program extends React.Component<ProgramProps, ProgramState> {
   }
 
   _runEffect(effect: Effect): void {
-    console.log("[Oolong] Running Effect");
+    console.log("[Gongfu] Running Effect");
     effect.run(this._updater);
   }
 

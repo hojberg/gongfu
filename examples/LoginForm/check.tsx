@@ -1,7 +1,7 @@
 import React from "react";
 import { Maybe } from "ramda-fantasy";
 import { View, Text } from "react-native";
-import { Effect, ModelWithEffect } from "../lib/oolong";
+import { Effect, ModelWithEffect } from "../lib/gongfu";
 import { restaurantChangeEffect, Change } from "../helpers/state";
 import Button from "./button";
 
