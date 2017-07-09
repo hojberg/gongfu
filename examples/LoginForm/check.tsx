@@ -1,9 +1,4 @@
 import React from "react";
-import { Maybe } from "ramda-fantasy";
-import { View, Text } from "react-native";
-import { Effect, ModelWithEffect } from "../lib/gongfu";
-import { restaurantChangeEffect, Change } from "../helpers/state";
-import Button from "./button";
 
 interface Model {}
 
@@ -65,84 +60,4 @@ function update(msg: Msg, model: Model): ModelWithEffect<Model> {
   });
 }
 
-interface Check {}
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-interface Model {}
-
-interface Check {
-  id: string;
-}
-interface Item {}
-
-interface AddItem {
-  tag: "AddItem";
-  check: Check;
-  item: Item;
-}
-function AddItem(check: Check, item: Item): AddItem {
-  return { tag: "AddItem", check: check, item: item };
-}
-
-interface NoOp {
-  tag: "NoOp";
-}
-function NoOp(): NoOp {
-  return { tag: "NoOp" };
-}
-
-type Msg = AddItem | NoOp;
-
-function update(msg: Msg, model: Model): ModelWithEffect<Model> {
-  switch (msg.tag) {
-    case "AddItem":
-      return {
-        model: model,
-        effect: restaurantChangeEffect(NoOp, {
-          path: `checks.${msg.check.id}.items`,
-          action: "add",
-          value: msg.item
-        })
-      };
-    case "NoOp":
-    default:
-      return { model, effect: Effect.empty() };
-  }
-}
-
-interface CheckProps {
-  model: Model;
-  updater: (msg: Msg) => void;
-  check: Check;
-}
-
-function Check(props: CheckProps): React.ReactElement<any> {
-  const { model, updater, check } = props;
-  const item = {
-    name: "MY ITEM"
-  };
-
-  return (
-    <View>
-      <Text>Check</Text>
-      <Button onPress={() => updater(AddItem(check, item))}>
-        Add item to Check
-      </Button>
-    </View>
-  );
-}
-*/
 export { Check, update, Msg, Model };
