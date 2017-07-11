@@ -3,4 +3,5 @@ log
 *.log
 VERSION
 .DS_Store
+.babelrc
 src
