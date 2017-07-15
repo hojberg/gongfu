@@ -21,7 +21,7 @@ class Program extends React.Component<ProgramProps, ProgramState> {
   constructor(props: ProgramProps) {
     super(props);
     const { init, subscriptions } = props;
-    const { model, effect } = init();
+    const [model, effect] = init();
     this.state = { model };
     this._updater = this._updater.bind(this);
     this._isMounted = false;
@@ -49,7 +49,7 @@ class Program extends React.Component<ProgramProps, ProgramState> {
     console.log("[Gongfu] Running Update for ", msg.tag);
 
     const { update } = this.props;
-    const { model, effect } = update(msg, this.state.model);
+    const [model, effect] = update(msg, this.state.model);
 
     if (this._isMounted) {
       console.log("[Gongfu] Setting state");

@@ -1,10 +1,7 @@
 import { Msg } from "./msg";
 import { Maybe, Just } from "./maybe";
 
-interface ModelWithEffect<M> {
-  model: M;
-  effect: Effect;
-}
+type ModelWithEffect<M> = [M, Effect];
 
 type Effect = _Effect;
 
