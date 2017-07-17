@@ -1,6 +1,6 @@
 {
   "name": "gongfu",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "./dist/index.js",
   "repository": {},
   "author": "Simon Højberg <r.hackr@gmail.com>",
@@ -14,7 +14,7 @@
     "@types/react": "^15.0.23",
     "react": "16.0.0-alpha.6",
     "react-dom": "^15.5.4",
-    "typescript": "2.2.2"
+    "typescript": "^2.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
