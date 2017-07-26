@@ -37,7 +37,7 @@ class _Effect {
     });
   }
 
-  map(f): Effect {
+  map(f: (a: any) => any): Effect {
     return Effect(done => {
       this.run(msg => {
         done(f(msg));
