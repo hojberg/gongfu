@@ -37,6 +37,14 @@ class _Effect {
     });
   }
 
+  map(f): Effect {
+    return Effect(done => {
+      this.run(msg => {
+        done(f(msg));
+      });
+    });
+  }
+
   run(updater: Updater) {
     this.runner.ap(Just(updater));
   }
