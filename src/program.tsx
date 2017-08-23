@@ -46,7 +46,7 @@ class Program extends React.Component<ProgramProps, ProgramState> {
   }
 
   _updater(msg: Msg): void {
-    console.log("[Gongfu] Running Update for ", msg.tag);
+    console.log(`[Gongfu] Running Update for ${msg.tag}`);
 
     const { update } = this.props;
     const { model, effect } = update(msg, this.state.model);
