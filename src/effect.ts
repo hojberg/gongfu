@@ -15,6 +15,8 @@ function Effect(runner?: Runner): Effect {
   return new _Effect(runner);
 }
 
+const EMPTY_EFFECT = Effect();
+
 class _Effect {
   readonly runner: Maybe<Runner>;
 
@@ -23,7 +25,7 @@ class _Effect {
   }
 
   static empty(): Effect {
-    return Effect();
+    return EMPTY_EFFECT;
   }
 
   constructor(runner?: Runner) {
