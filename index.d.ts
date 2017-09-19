@@ -9,7 +9,7 @@ export interface Msg {
   tag: string;
 }
 
-export type MsgConstructor = (a?: any) => Msg;
+export type MsgConstructor = (...args: any[]) => Msg;
 export type Updater = (msg: Msg) => void;
 export type Runner = (updater: Updater) => void;
 export type Setup = (onChange: Updater) => void;
@@ -17,7 +17,7 @@ export type Setup = (onChange: Updater) => void;
 export interface Effect {
   concat(that: Effect): Effect;
 
-  map(f: (a: any) => any): Effect;
+  map(f: (a: Msg) => Msg): Effect;
 
   run(updater: Updater): void;
 }
