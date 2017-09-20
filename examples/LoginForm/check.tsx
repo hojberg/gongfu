@@ -1,4 +1,4 @@
-import React from "react";
+import { Effect, ModelWithEffect } from "../../src/effect";
 
 interface Model {}
 
@@ -59,5 +59,3 @@ function update(msg: Msg, model: Model): ModelWithEffect<Model> {
     Beep: (a: Date, b: number, c: string) => ({ model, effect: Effect.empty() })
   });
 }
-
-export { Check, update, Msg, Model };
