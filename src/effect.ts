@@ -15,8 +15,6 @@ function Effect(runner?: Runner): Effect {
   return new _Effect(runner);
 }
 
-const EMPTY_EFFECT = Effect();
-
 class _Effect {
   readonly runner: Maybe<Runner>;
 
@@ -51,6 +49,9 @@ class _Effect {
     this.runner.ap(Just(updater));
   }
 }
+
+// Needs to be _AFTER_ the implementation of _Effect
+const EMPTY_EFFECT = Effect();
 
 namespace Effect {
   export var of = _Effect.of;
