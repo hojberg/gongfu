@@ -30,6 +30,10 @@ class _Effect {
     this.runner = Maybe(runner);
   }
 
+  isEmpty(): boolean {
+    return this.runner.map(() => false).getOrElse(true);
+  }
+
   concat(that: Effect): Effect {
     return Effect(done => {
       this.runner.ap(Just(done));
