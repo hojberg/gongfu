@@ -8,6 +8,7 @@ interface ProgramProps {
   update: (msg: Msg, model: any) => ModelWithEffect<any>;
   init: () => ModelWithEffect<any>;
   subscriptions?: (model: any) => Sub;
+  debugEnabled?: boolean;
 }
 
 interface ProgramState {
@@ -46,13 +47,14 @@ class Program extends React.Component<ProgramProps, ProgramState> {
   }
 
   _updater(msg: Msg): void {
-    console.log(`[Gongfu] Running Update for ${msg.tag}`);
+    this.props.debugEnabled &&
+      console.log(`[Gongfu] Running Update for ${msg.tag}`);
 
     const { update } = this.props;
     const { model, effect } = update(msg, this.state.model);
 
     if (this._isMounted) {
-      console.log("[Gongfu] Setting state");
+      this.props.debugEnabled && console.log("[Gongfu] Setting state");
       this.setState({ model }, () => {
         this._runEffect(effect);
       });
@@ -62,7 +64,7 @@ class Program extends React.Component<ProgramProps, ProgramState> {
   }
 
   _runEffect(effect: Effect): void {
-    console.log("[Gongfu] Running Effect");
+    this.props.debugEnabled && console.log("[Gongfu] Running Effect");
     effect.run(this._updater);
   }
 
