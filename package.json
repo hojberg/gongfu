@@ -12,7 +12,7 @@
     "prepublishOnly": "rm -rf dist; tsc --outDir dist/; babel dist/ -d dist/"
   },
   "peerDependencies": {
-    "react": "16.0.0-alpha.6"
+    "react": ">=15.0.0"
   },
   "devDependencies": {
     "@types/react": "^16.0.5",
