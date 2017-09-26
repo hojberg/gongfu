@@ -62,8 +62,10 @@ class Program extends React.Component<ProgramProps, ProgramState> {
   }
 
   _runEffect(effect: Effect): void {
-    console.log("[Gongfu] Running Effect");
-    effect.run(this._updater);
+    if (!effect.isEmpty()) {
+      console.log("[Gongfu] Running Effect");
+      effect.run(this._updater);
+    }
   }
 
   render(): React.ReactElement<any> {

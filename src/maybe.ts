@@ -7,6 +7,10 @@ abstract class _Maybe<T> {
   ap(m: Maybe<T>): Maybe<T> {
     return this;
   }
+
+  getOrElse<U>(orElseVal: U): U {
+    return orElseVal;
+  }
 }
 
 class _Nothing<T> extends _Maybe<T> {
@@ -18,7 +22,7 @@ class _Nothing<T> extends _Maybe<T> {
     return this;
   }
 
-  getOrElse(orElseVal: any): any {
+  getOrElse<U>(orElseVal: U): U {
     return orElseVal;
   }
 
@@ -36,7 +40,7 @@ class _Just<T> extends _Maybe<T> {
     return Just(f(this.val));
   }
 
-  getOrElse(orElseVal: any): any {
+  getOrElse<U>(orElseVal: U): U {
     return this.val;
   }
 
