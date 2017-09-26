@@ -21,20 +21,14 @@ function UpdatePassword(password) {
 function update(msg, model) {
   switch (msg.tag) {
     case "UpdateEmail":
-      return {
-        model: assoc("email", msg.email, model),
-        effect: Effect.empty()
-      };
+      return [assoc("email", msg.email, model), Effect.empty()];
 
     case "UpdatePassword":
       console.log("UpdatePassword");
-      return {
-        model: assoc("password", msg.password, model),
-        effect: Effect.empty()
-      };
+      return [assoc("password", msg.password, model), Effect.empty()];
 
     default:
-      return { model, effect: Effect.empty() };
+      return [model, Effect.empty()];
   }
 }
 

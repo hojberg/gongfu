@@ -11,7 +11,7 @@ function init() {
     apiUser: null
   };
 
-  return { model, effect: Effect.empty() };
+  return [model, Effect.empty()];
 }
 
 // -- UPDATE
@@ -35,32 +35,26 @@ function LoginFormMsg(msg) {
 function update(msg, model) {
   switch (msg.tag) {
     case "Login":
-      return {
-        model,
-        effect: login(model.loginForm.email, model.loginForm.password)
-      };
+      return [model, login(model.loginForm.email, model.loginForm.password)];
 
     case "LoginRequestSuccess":
-      return {
-        model: assoc("apiUser", msg.response, model),
-        effect: Effect.empty()
-      };
+      return [assoc("apiUser", msg.response, model), Effect.empty()];
 
     case "LoginRequestFailure":
-      return { model, effect: Effect.empty() };
+      return [model, Effect.empty()];
 
     case "LoginFormMsg":
-      return {
-        model: assoc(
+      return [
+        assoc(
           "loginForm",
           LoginForm.update(msg.msg, model.loginForm).model,
           model
         ),
-        effect: Effect.empty()
-      };
+        Effect.empty()
+      ];
 
     default:
-      return { model, effect: Effect.empty() };
+      return [model, Effect.empty()];
   }
 }
 
