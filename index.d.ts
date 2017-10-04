@@ -53,6 +53,7 @@ export interface ProgramProps {
   init: () => ModelWithEffect<any>;
   subscriptions?: (model: any) => Sub;
   debugEnabled?: boolean;
+  deepEqualEnabled?: boolean;
 }
 
 export interface ProgramState {
