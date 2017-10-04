@@ -9,6 +9,7 @@ interface ProgramProps {
   init: () => ModelWithEffect<any>;
   subscriptions?: (model: any) => Sub;
   debugEnabled?: boolean;
+  deepEqualEnabled?: boolean;
 }
 
 interface ProgramState {
@@ -18,6 +19,10 @@ interface ProgramState {
 class Program extends React.Component<ProgramProps, ProgramState> {
   readonly _subscriptions?: Sub;
   private _isMounted: Boolean;
+
+  public static defaultProps = {
+    debugEnabled: true
+  };
 
   constructor(props: ProgramProps) {
     super(props);
@@ -47,17 +52,22 @@ class Program extends React.Component<ProgramProps, ProgramState> {
   }
 
   _updater(msg: Msg): void {
-    this.props.debugEnabled &&
-      console.log(`[Gongfu] Running Update for ${msg.tag}`);
+    const { debugEnabled, deepEqualEnabled, update } = this.props;
 
-    const { update } = this.props;
+    debugEnabled && console.log(`[Gongfu] Running Update for ${msg.tag}`);
+
     const { model, effect } = update(msg, this.state.model);
 
     if (this._isMounted) {
       this.props.debugEnabled && console.log("[Gongfu] Setting state");
-      this.setState({ model }, () => {
+
+      if (!deepEqual(model, this.state.model) && deepEqualEnabled) {
+        this.setState({ model }, () => {
+          this._runEffect(effect);
+        });
+      } else {
         this._runEffect(effect);
-      });
+      }
     } else {
       this._runEffect(effect);
     }
