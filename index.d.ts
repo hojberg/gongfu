@@ -52,6 +52,7 @@ export interface ProgramProps {
   update: (msg: Msg, model: any) => ModelWithEffect<any>;
   init: () => ModelWithEffect<any>;
   subscriptions?: (model: any) => Sub;
+  debugEnabled?: boolean;
 }
 
 export interface ProgramState {
