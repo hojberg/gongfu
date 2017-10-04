@@ -2,6 +2,7 @@ import React from "react";
 import Sub from "./sub";
 import { Msg } from "./msg";
 import { Effect, ModelWithEffect } from "./effect";
+import deepEqual from "deep-equal";
 
 interface ProgramProps {
   Component: any;
