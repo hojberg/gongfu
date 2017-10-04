@@ -29,7 +29,5 @@
     "react-dom": "^15.6.1",
     "typescript": "^2.5.2"
   },
-  "dependencies": {
-    "deep-equal": "^1.0.1"
-  }
+  "dependencies": {}
 }

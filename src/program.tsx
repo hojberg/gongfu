@@ -2,7 +2,6 @@ import React from "react";
 import Sub from "./sub";
 import { Msg } from "./msg";
 import { Effect, ModelWithEffect } from "./effect";
-import deepEqual from "deep-equal";
 
 interface ProgramProps {
   Component: any;
@@ -10,7 +9,6 @@ interface ProgramProps {
   init: () => ModelWithEffect<any>;
   subscriptions?: (model: any) => Sub;
   debugEnabled?: boolean;
-  deepEqualEnabled?: boolean;
 }
 
 interface ProgramState {
@@ -53,7 +51,7 @@ class Program extends React.Component<ProgramProps, ProgramState> {
   }
 
   _updater(msg: Msg): void {
-    const { debugEnabled, deepEqualEnabled, update } = this.props;
+    const { debugEnabled, update } = this.props;
 
     debugEnabled && console.log(`[Gongfu] Running Update for ${msg.tag}`);
 
@@ -62,13 +60,9 @@ class Program extends React.Component<ProgramProps, ProgramState> {
     if (this._isMounted) {
       this.props.debugEnabled && console.log("[Gongfu] Setting state");
 
-      if (!deepEqual(model, this.state.model) && deepEqualEnabled) {
-        this.setState({ model }, () => {
-          this._runEffect(effect);
-        });
-      } else {
+      this.setState({ model }, () => {
         this._runEffect(effect);
-      }
+      });
     } else {
       this._runEffect(effect);
     }
