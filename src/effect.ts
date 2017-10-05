@@ -58,4 +58,4 @@ namespace Effect {
   export var empty = _Effect.empty;
 }
 
-export { ModelWithEffect, Effect };
+export { ModelWithEffect, Effect, EMPTY_EFFECT };

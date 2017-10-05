@@ -38,10 +38,10 @@ export interface Sub {
   run(updater: Updater): void;
 }
 
-export function Sub(Msg?: MsgConstructor, setup?: Setup): Sub;
+export function Sub(setup?: Setup): Sub;
 
 export namespace Sub {
-  function of(Msg?: MsgConstructor, setup?: Setup): Sub;
+  function of(setup?: Setup): Sub;
   function none(): Sub;
 }
 

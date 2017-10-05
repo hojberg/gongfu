@@ -1,35 +1,33 @@
 import { pipe } from "ramda";
-import { Msg, MsgConstructor } from "./msg";
+import { Msg } from "./msg";
 
 type Sub = _Sub;
 
 type Updater = (msg: Msg) => void;
 type Setup = (onChange: Updater) => void;
 
-function Sub(Msg?: MsgConstructor, setup?: Setup): Sub {
-  return new _Sub(Msg, setup);
+function Sub(setup?: Setup): Sub {
+  return new _Sub(setup);
 }
 
 class _Sub {
   readonly setup?: Setup;
-  readonly Msg?: MsgConstructor;
 
-  static of(Msg?: MsgConstructor, setup?: Setup): Sub {
-    return Sub(Msg, setup);
+  static of(setup?: Setup): Sub {
+    return Sub(setup);
   }
 
   static none(): Sub {
     return Sub();
   }
 
-  constructor(Msg?: MsgConstructor, setup?: Setup) {
+  constructor(setup?: Setup) {
     this.setup = setup;
-    this.Msg = Msg;
   }
 
   run(updater: Updater) {
-    if (typeof this.setup === "function" && typeof this.Msg === "function") {
-      this.setup(pipe(this.Msg, updater));
+    if (typeof this.setup === "function") {
+      this.setup(updater);
     }
   }
 }
