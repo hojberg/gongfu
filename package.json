@@ -1,6 +1,6 @@
 {
   "name": "gongfu",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "main": "./dist/index.js",
   "types": "./index.d.ts",
   "repository": {},
