@@ -17,7 +17,7 @@ export type Setup = (onChange: Updater) => void;
 export interface Effect {
   concat(that: Effect): Effect;
 
-  map(f: (a: Msg) => Msg): Effect;
+  map<M extends Msg>(f: (msg: M) => Msg): Effect;
 
   run(updater: Updater): void;
 }
@@ -45,7 +45,7 @@ export namespace Sub {
   function none(): Sub;
 }
 
-export function updaterFor(updater: Updater, Msg: MsgConstructor): Updater;
+export function updaterFor<M extends Msg>(updater: (msg: M) => void, Msg: MsgConstructor): Updater;
 
 export interface ProgramProps {
   Component: any;
