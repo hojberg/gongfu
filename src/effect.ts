@@ -31,6 +31,9 @@ class _Effect {
   }
 
   concat(that: Effect): Effect {
+    if (this === EMPTY_EFFECT) return that;
+    if (that === EMPTY_EFFECT) return this;
+
     return Effect(done => {
       this.runner.ap(Just(done));
       that.runner.ap(Just(done));
@@ -38,6 +41,8 @@ class _Effect {
   }
 
   map(f: (a: any) => any): Effect {
+    if (this === EMPTY_EFFECT) return this;
+
     return Effect(done => {
       this.run(msg => {
         done(f(msg));
