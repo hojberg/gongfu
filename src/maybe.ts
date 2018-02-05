@@ -1,4 +1,5 @@
 type Mapper = (a: any) => any;
+
 abstract class _Maybe<T> {
   map(f: Mapper): Maybe<T> {
     return this;
@@ -7,6 +8,8 @@ abstract class _Maybe<T> {
   ap(m: Maybe<T>): Maybe<T> {
     return this;
   }
+
+  abstract getOrElse(orElseVal: any): any;
 }
 
 class _Nothing<T> extends _Maybe<T> {

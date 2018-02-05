@@ -1,6 +1,6 @@
 import React from "react";
 import Sub from "./sub";
-import { Msg } from "./msg";
+import { Msg, msgToString } from "./msg";
 import { Effect, ModelWithEffect } from "./effect";
 
 interface ProgramProps {
@@ -53,23 +53,25 @@ class Program extends React.Component<ProgramProps, ProgramState> {
   _updater(msg: Msg): void {
     const { debugEnabled, update } = this.props;
 
-    debugEnabled && console.log(`[Gongfu] Running Update for ${msg.tag}`);
+    debugEnabled && console.group(`[Gongfu] Running Update for ${msgToString(msg)}`);
 
     const { model, effect } = update(msg, this.state.model);
 
     if (this._isMounted) {
-      this.props.debugEnabled && console.log("[Gongfu] Setting state");
-
       this.setState({ model }, () => {
         this._runEffect(effect);
       });
     } else {
       this._runEffect(effect);
     }
+
+    debugEnabled && console.groupEnd();
   }
 
   _runEffect(effect: Effect): void {
-    this.props.debugEnabled && console.log("[Gongfu] Running Effect");
+    if (this.props.debugEnabled && effect !== Effect.empty()) {
+      console.log("[Gongfu] Running Effect");
+    }
     effect.run(this._updater);
   }
 
