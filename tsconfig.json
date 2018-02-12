@@ -5,11 +5,8 @@
     "target": "es2015",
     "rootDir": "src",
     "outDir": "build",
-    "jsx": "react-native",
-    "lib": [
-      "dom",
-      "es2016"
-    ],
+    "jsx": "react",
+    "lib": ["dom", "es2016"],
     "allowJs": true,
     "noImplicitAny": false,
     "preserveConstEnums": true,
@@ -17,12 +14,5 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true
   },
-  "exclude": [
-    "index.*.js",
-    "build",
-    "node_modules",
-    "test",
-    "public",
-    "examples"
-  ]
+  "exclude": ["index.*.js", "build", "dist", "node_modules", "test", "public", "examples"]
 }
