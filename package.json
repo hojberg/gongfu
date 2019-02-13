@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc; browserify examples/LoginForm/Main.js -o examples/LoginForm/public/bundle.js -t [ babelify --presets [ es2015 react ] ]",
+    "pretest": "rm -rf dist; tsc --outDir dist/ --module commonjs",
     "test": "mocha",
     "prepublishOnly": "rm -rf dist; tsc --outDir dist/ --module commonjs"
   },
