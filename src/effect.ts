@@ -58,9 +58,13 @@ class _Effect {
 // Needs to be _AFTER_ the implementation of _Effect
 const EMPTY_EFFECT = Effect();
 
+function isEmpty(effect: Effect) {
+  return effect === EMPTY_EFFECT;
+}
+
 namespace Effect {
   export var of = _Effect.of;
   export var empty = _Effect.empty;
 }
 
-export { ModelWithEffect, Effect, EMPTY_EFFECT };
+export { ModelWithEffect, Effect, isEmpty };

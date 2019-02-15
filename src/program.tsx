@@ -1,7 +1,7 @@
-import React from "react";
+import * as React from "react";
 import Sub from "./sub";
 import { Msg, msgToString } from "./msg";
-import { Effect, ModelWithEffect } from "./effect";
+import { Effect, ModelWithEffect, isEmpty } from "./effect";
 
 interface ProgramProps {
   Component: any;
@@ -69,10 +69,11 @@ class Program extends React.Component<ProgramProps, ProgramState> {
   }
 
   _runEffect(effect: Effect): void {
-    if (this.props.debugEnabled && effect !== Effect.empty()) {
-      console.log("[Gongfu] Running Effect");
-    }
-    effect.run(this._updater);
+    if (isEmpty(effect)) return;
+    if (this.props.debugEnabled) console.log("[Gongfu] Running Effect");
+
+    // Run the effect in the next frame (60fps) so React can update the UI in the current event loop
+    setTimeout(effect.run.bind(effect, this._updater), 16);
   }
 
   render(): React.ReactElement<any> {
