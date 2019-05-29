@@ -27,6 +27,7 @@ class Program extends React.Component<ProgramProps, ProgramState> {
     super(props);
     const { init, subscriptions } = props;
     const { model, effect } = init();
+
     this.state = { model };
     this._updater = this._updater.bind(this);
     this._isMounted = false;
@@ -57,7 +58,7 @@ class Program extends React.Component<ProgramProps, ProgramState> {
 
     const { model, effect } = update(msg, this.state.model);
 
-    if (this._isMounted) {
+    if (this._isMounted && model !== this.state.model) {
       this.setState({ model }, () => {
         this._runEffect(effect);
       });
@@ -72,8 +73,8 @@ class Program extends React.Component<ProgramProps, ProgramState> {
     if (isEmpty(effect)) return;
     if (this.props.debugEnabled) console.log("[Gongfu] Running Effect");
 
-    // Run the effect in the next frame (60fps) so React can update the UI in the current event loop
-    setTimeout(effect.run.bind(effect, this._updater), 16);
+    // Effects need to be run synchronously so they have access to the updated model
+    effect.run(this._updater);
   }
 
   render(): React.ReactElement<any> {
