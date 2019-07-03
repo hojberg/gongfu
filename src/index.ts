@@ -3,6 +3,7 @@ import { Effect, ModelWithEffect } from "./effect";
 import updaterFor from "./updater_for";
 import Sub from "./sub";
 import { Msg, MsgConstructor } from "./msg";
+import withSubscriptions from "./with_subs";
 
 export {
   Msg,
@@ -11,5 +12,6 @@ export {
   Effect,
   ModelWithEffect,
   updaterFor,
-  Sub
+  Sub,
+  withSubscriptions,
 };

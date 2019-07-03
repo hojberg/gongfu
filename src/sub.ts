@@ -1,10 +1,10 @@
-import { pipe } from "ramda";
 import { Msg } from "./msg";
 
 type Sub = _Sub;
 
 type Updater = (msg: Msg) => void;
-type Setup = (onChange: Updater) => void;
+type Cleanup = () => void;
+type Setup = (onChange: Updater, onCleanup?: Cleanup) => void;
 
 function Sub(setup?: Setup): Sub {
   return new _Sub(setup);
@@ -25,9 +25,9 @@ class _Sub {
     this.setup = setup;
   }
 
-  run(updater: Updater) {
+  run(updater: Updater, onCleanup?: Cleanup) {
     if (typeof this.setup === "function") {
-      this.setup(updater);
+      this.setup(updater, onCleanup);
     }
   }
 }
