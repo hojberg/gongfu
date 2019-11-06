@@ -60,3 +60,17 @@ export interface ProgramState {
 }
 
 export class Program extends Component<ProgramProps, ProgramState> {}
+
+/**
+ * Returns an effect which sends a message for the next frame.
+ * "Next frame" means a 16ms delay, assuming 60fps for rendering.
+ * @param msg The message to send
+ */
+export function sendMessage(msg: Msg): Effect;
+
+/**
+ * * Returns an effect which sends a message after a delay.
+ * @param msg The message to send
+ * @param delay The time in milliseconds before the message is sent
+ */
+export function sendMessageDelayed(msg: Msg, delay: number): Effect;

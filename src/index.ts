@@ -3,6 +3,7 @@ import { Effect, ModelWithEffect } from "./effect";
 import updaterFor from "./updater_for";
 import Sub from "./sub";
 import { Msg, MsgConstructor } from "./msg";
+import { sendMessage, sendMessageDelayed} from "./send_message";
 
 export {
   Msg,
@@ -10,6 +11,8 @@ export {
   Program,
   Effect,
   ModelWithEffect,
+  Sub,
   updaterFor,
-  Sub
+  sendMessage,
+  sendMessageDelayed,
 };
