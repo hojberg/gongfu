@@ -12,7 +12,8 @@ export interface Msg {
 export type MsgConstructor = (...args: any[]) => Msg;
 export type Updater = (msg: Msg) => void;
 export type Runner = (updater: Updater) => void;
-export type Setup = (onChange: Updater) => void;
+export type Cleanup = () => void;
+export type Setup = (onChange: Updater) => Cleanup | undefined;
 
 export interface Effect {
   concat(that: Effect): Effect;
@@ -35,7 +36,7 @@ export interface ModelWithEffect<M> {
 }
 
 export interface Sub {
-  run(updater: Updater): void;
+  run(updater: Updater): Cleanup | undefined;
 }
 
 export function Sub(setup?: Setup): Sub;
@@ -44,6 +45,10 @@ export namespace Sub {
   function of(setup?: Setup): Sub;
   function none(): Sub;
 }
+
+export function withSubscriptions<Props>(
+  UserComponent: React.ComponentType<Props>,
+  subscriptions: (model: any) => Sub): React.ComponentType<Props>;
 
 export function updaterFor<M extends Msg>(updater: (msg: M) => void, Msg: MsgConstructor): Updater;
 

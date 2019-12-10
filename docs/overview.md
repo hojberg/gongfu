@@ -50,13 +50,13 @@ This example shows how to implement the `subscriptions` function and bind it to 
 
 function subscriptions(model) {
       // This is called with the component's model state when it is being mounted
-      return Sub((updater, onCleanup) => {
+      return Sub((updater) => {
             const listener = SomeModule.addEventListener("locationChange", loc => updater(LocationChanged(loc)));
-            // Pass a function to invoke when the component is unmounted so we can cleanup the listener
-            onCleanup(() => {
+            // Return a function to invoke when the component is unmounted so we can cleanup the listener
+            return function cleanup() {
                   SomeModule.removeEventListener("locationChange", listener);
-            })
-            // If you do not need to cleanup subscriptions, then `onCleanup` can be omitted.
+            });
+            // If you do not need to cleanup subscriptions, then a return value can be omitted.
       });
 }
 
