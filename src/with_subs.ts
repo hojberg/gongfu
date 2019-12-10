@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Msg } from "./msg";
 import Sub from "./sub";
 
@@ -12,14 +12,13 @@ interface IHaveModel {
 function withSubscriptions<Props extends IHaveModel>(
   UserComponent: React.ComponentType<Props>,
   subscriptions: (model: {}) => Sub
-): React.ComponentClass<Props> {
-
-  return class GongfuWithSubs extends React.Component<Props> {
+): React.ComponentType<Props> {
+  return class WithSubscriptions extends React.Component<Props> {
     cleanup?: Cleanup;
 
     componentDidMount() {
       const sub = subscriptions(this.props.model);
-      sub.run(this.props.updater, this.onCleanup.bind(this));
+      this.cleanup = sub.run(this.props.updater);
     }
 
     componentWillUnmount() {
@@ -29,12 +28,8 @@ function withSubscriptions<Props extends IHaveModel>(
       }
     }
 
-    onCleanup(cleanup: Cleanup) {
-      this.cleanup = cleanup;
-    }
-
     render() {
-      return React.createElement(UserComponent as any, this.props);
+      return React.createElement(UserComponent, this.props);
     }
   };
 }
