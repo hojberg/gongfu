@@ -11,13 +11,13 @@ interface IHaveModel {
 
 function withSubscriptions<Props extends IHaveModel>(
   UserComponent: React.ComponentType<Props>,
-  subscriptions: (model: {}) => Sub
+  subscriptions: (model: {}, props: () => Props) => Sub
 ): React.ComponentType<Props> {
   return class WithSubscriptions extends React.Component<Props> {
     cleanup?: Cleanup;
 
     componentDidMount() {
-      const sub = subscriptions(this.props.model);
+      const sub = subscriptions(this.props.model, () => this.props);
       this.cleanup = sub.run(this.props.updater);
     }
 
