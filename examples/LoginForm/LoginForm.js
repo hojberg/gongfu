@@ -1,6 +1,6 @@
 import React from "react";
 import { assoc } from "ramda";
-import { Effect } from "../../build/index";
+import { Effect } from "../../build/src/index";
 
 // -- MODEL
 
@@ -23,14 +23,14 @@ function update(msg, model) {
     case "UpdateEmail":
       return {
         model: assoc("email", msg.email, model),
-        effect: Effect.empty()
+        effect: Effect.empty(),
       };
 
     case "UpdatePassword":
       console.log("UpdatePassword");
       return {
         model: assoc("password", msg.password, model),
-        effect: Effect.empty()
+        effect: Effect.empty(),
       };
 
     default:
@@ -47,11 +47,11 @@ function LoginForm(props) {
     <div>
       <input
         value={model.email}
-        onChange={ev => updater(UpdateEmail(ev.target.value))}
+        onChange={(ev) => updater(UpdateEmail(ev.target.value))}
       />
       <input
         value={model.password}
-        onChange={ev => updater(UpdatePassword(ev.target.value))}
+        onChange={(ev) => updater(UpdatePassword(ev.target.value))}
       />
       <a onClick={onLoginPress}>Login</a>
     </div>
