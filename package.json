@@ -7,8 +7,9 @@
   "author": "Simon Højberg <r.hackr@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc; browserify examples/LoginForm/Main.js -o examples/LoginForm/public/bundle.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ]",
+    "build-example": "tsc; browserify examples/LoginForm/Main.js -o examples/LoginForm/public/bundle.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ]",
     "test": "jest",
+    "tsc": "tsc",
     "prepublishOnly": "rm -rf dist; tsc --outDir dist/ --module commonjs"
   },
   "peerDependencies": {
@@ -28,8 +29,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-test-renderer": "15.6.1",
-    "ts-jest": "^25.2.1",
-    "typescript": "^2.9.2"
-  },
-  "dependencies": {}
+    "ts-jest": "^25.3.1",
+    "typescript": "^3.8.3"
+  }
 }
