@@ -1,14 +1,14 @@
 import React from "react";
 import { assoc } from "ramda";
 import * as LoginForm from "./LoginForm";
-import { Effect, updaterFor } from "../../build/index";
+import { Effect, updaterFor } from "../../build/src/index";
 
 // -- MODEL
 
 function init() {
   const model = {
     loginForm: LoginForm.init(),
-    apiUser: null
+    apiUser: null,
   };
 
   return { model, effect: Effect.empty() };
@@ -37,13 +37,13 @@ function update(msg, model) {
     case "Login":
       return {
         model,
-        effect: login(model.loginForm.email, model.loginForm.password)
+        effect: login(model.loginForm.email, model.loginForm.password),
       };
 
     case "LoginRequestSuccess":
       return {
         model: assoc("apiUser", msg.response, model),
-        effect: Effect.empty()
+        effect: Effect.empty(),
       };
 
     case "LoginRequestFailure":
@@ -56,7 +56,7 @@ function update(msg, model) {
           LoginForm.update(msg.msg, model.loginForm).model,
           model
         ),
-        effect: Effect.empty()
+        effect: Effect.empty(),
       };
 
     default:
@@ -67,7 +67,7 @@ function update(msg, model) {
 // -- EFFECTS
 
 function login(email, password) {
-  return Effect(done => {
+  return Effect((done) => {
     setTimeout(() => {
       const msg = LoginRequestSuccess({ name: "Simon" });
       done(msg);
@@ -79,14 +79,12 @@ function login(email, password) {
 
 function App(props) {
   const { model, updater } = props;
-  const apiUser = model.apiUser ? model.apiUser.name : null;
+  const welcome = model.apiUser ? `Hi ${model.apiUser.name}` : null;
   const loginFormUpdater = updaterFor(updater, LoginFormMsg);
 
   return (
     <div>
-      <h1>
-        {apiUser}
-      </h1>
+      <h1>{welcome}</h1>
       <LoginForm.LoginForm
         updater={loginFormUpdater}
         model={model.loginForm}
