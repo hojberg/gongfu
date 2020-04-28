@@ -8,7 +8,7 @@ function Message2() {
   return { tag: "Message2" };
 }
 
-function ParentMessage(msg) {
+function ParentMessage(msg: any) {
   return { tag: "ParentMessage", msg };
 }
 

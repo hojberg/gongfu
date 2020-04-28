@@ -3,7 +3,7 @@ import * as TestRenderer from "react-test-renderer";
 import Sub from "../src/sub";
 import withSubscriptions from "../src/with_subs";
 
-function MyComponent(_props) {
+function MyComponent(_props: any) {
   return React.createElement("span", {}, "Hello World");
 }
 
@@ -12,8 +12,8 @@ describe("withSubscriptions", () => {
   let stopSubscriptionsCalled = false;
   const model = {};
 
-  function subscriptions(m) {
-    return Sub(_ => {
+  function subscriptions(m: unknown) {
+    return Sub((_) => {
       subscriptionsCalled = m === model;
       return function stop() {
         stopSubscriptionsCalled = true;
@@ -46,4 +46,3 @@ describe("withSubscriptions", () => {
     expect(stopSubscriptionsCalled).toBe(true);
   });
 });
-
