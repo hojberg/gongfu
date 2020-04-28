@@ -5,6 +5,8 @@ import Sub from "./sub";
 import { Msg, MsgConstructor } from "./msg";
 import withSubscriptions from "./with_subs";
 
+export type Updater = (msg: Msg) => void;
+
 export {
   Msg,
   MsgConstructor,

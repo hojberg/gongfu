@@ -23,7 +23,6 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-test-renderer": "^16.13.1",
-    "sums-up": "^2.1.0",
     "ts-jest": "^25.3.1",
     "typescript": "^3.8.3"
   }

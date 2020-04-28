@@ -1,11 +1,20 @@
 import React from "react";
 import * as LoginForm from "./LoginForm";
-import { Effect, updaterFor } from "../../build/src/index";
+import { Updater, Effect, updaterFor, ModelWithEffect } from "../../src/index";
 import SumType from "sums-up";
 
 // -- MODEL
 
-function init() {
+type User = {
+  name: string;
+};
+
+type Model = {
+  loginForm: LoginForm.Model;
+  apiUser: User | null;
+};
+
+function init(): ModelWithEffect<Model> {
   const model = {
     loginForm: LoginForm.init(),
     apiUser: null,
@@ -16,57 +25,47 @@ function init() {
 
 // -- UPDATE
 
-function Login() {
-  return { tag: "Login" };
-}
+class Msg extends SumType<{
+  Login: [];
+  LoginRequestSuccess: [User];
+  LoginRequestFailure: [Error];
+  LoginFormMsg: [LoginForm.Msg];
+}> {}
 
-function LoginRequestSuccess(response) {
-  return { response, tag: "LoginRequestSuccess" };
-}
+const Login = () => new Msg("Login");
+const LoginRequestSuccess = (user: User) =>
+  new Msg("LoginRequestSuccess", user);
+const LoginRequestFailure = (error: Error) =>
+  new Msg("LoginRequestFailure", error);
+const LoginFormMsg = (msg: LoginForm.Msg) => new Msg("LoginFormMsg", msg);
 
-function LoginRequestFailure(error) {
-  return { error, tag: "LoginRequestFailure" };
-}
+function update(msg: Msg, model: Model): ModelWithEffect<Model> {
+  return msg.caseOf({
+    Login: () => ({
+      model,
+      effect: login(model.loginForm.email, model.loginForm.password),
+    }),
 
-function LoginFormMsg(msg) {
-  return { msg, tag: "LoginFormMsg" };
-}
+    LoginRequestSuccess: (apiUser) => ({
+      model: { ...model, apiUser },
+      effect: Effect.empty(),
+    }),
 
-function update(msg, model) {
-  switch (msg.tag) {
-    case "Login":
-      return {
-        model,
-        effect: login(model.loginForm.email, model.loginForm.password),
-      };
+    LoginRequestFailure: () => ({ model, effect: Effect.empty() }),
 
-    case "LoginRequestSuccess":
-      return {
-        model: assoc("apiUser", msg.response, model),
-        effect: Effect.empty(),
-      };
-
-    case "LoginRequestFailure":
-      return { model, effect: Effect.empty() };
-
-    case "LoginFormMsg":
-      return {
-        model: assoc(
-          "loginForm",
-          LoginForm.update(msg.msg, model.loginForm).model,
-          model
-        ),
-        effect: Effect.empty(),
-      };
-
-    default:
-      return { model, effect: Effect.empty() };
-  }
+    LoginFormMsg: (msg) => ({
+      model: {
+        ...model,
+        loginForm: LoginForm.update(msg, model.loginForm).model,
+      },
+      effect: Effect.empty(),
+    }),
+  });
 }
 
 // -- EFFECTS
 
-function login(email, password) {
+function login(_email: string, _password: string): Effect {
   return Effect((done) => {
     setTimeout(() => {
       const msg = LoginRequestSuccess({ name: "Simon" });
@@ -77,7 +76,13 @@ function login(email, password) {
 
 // -- VIEW
 
-function App(props) {
+type Props = {
+  model: Model;
+  updater: Updater;
+  onLoginPress: () => void;
+};
+
+function App(props: Props) {
   const { model, updater } = props;
   const welcome = model.apiUser ? `Hi ${model.apiUser.name}` : null;
   const loginFormUpdater = updaterFor(updater, LoginFormMsg);
