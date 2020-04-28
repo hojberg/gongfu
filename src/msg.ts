@@ -5,7 +5,7 @@ type ClassicMsg = {
   msg?: ClassicMsg;
 };
 
-type Msg = ClassicMsg | SumType<any>;
+type Msg = ClassicMsg | SumType<Record<string, Array<unknown>>>;
 
 type MsgConstructor = (a?: any) => Msg;
 
