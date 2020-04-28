@@ -1,17 +1,15 @@
 {
   "compilerOptions": {
     "module": "es2015",
-    "moduleResolution": "node",
-    "target": "es2015",
-    "outDir": "build",
+    "module": "commonjs",
+    "outDir": "dist",
     "jsx": "react",
     "lib": ["dom", "es2016"],
-    "allowJs": true,
-    "noImplicitAny": false,
     "preserveConstEnums": true,
-    "strictNullChecks": true,
+    "strict": true,
     "sourceMap": true,
-    "allowSyntheticDefaultImports": true
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
   },
-  "exclude": ["index.*.js", "build", "dist", "node_modules", "test", "public", "examples"]
+  "exclude": ["dist", "node_modules", "examples", "__tests__"]
 }

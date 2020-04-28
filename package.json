@@ -1,15 +1,17 @@
 {
   "name": "gongfu",
   "version": "1.1.0",
-  "main": "./dist/src/index.js",
-  "types": "./index.d.ts",
+  "main": "./dist/index.js",
   "repository": {},
   "author": "Simon Højberg <r.hackr@gmail.com>",
   "license": "MIT",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "rm -rf dist; rm -rf build; jest",
+    "test": "jest",
     "tsc": "tsc",
-    "prepublishOnly": "rm -rf dist; tsc --outDir dist/ --module commonjs"
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean; npm test && npm run build"
   },
   "peerDependencies": {
     "react": ">=16.0.0"
