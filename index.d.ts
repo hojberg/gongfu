@@ -46,13 +46,17 @@ export namespace Sub {
   function none(): Sub;
 }
 
-type WithModel<M> = { model: M; }
+type WithModel<M> = { model: M };
 
 export function withSubscriptions<M, Props extends WithModel<M>>(
   UserComponent: React.ComponentType<Props>,
-  subscriptions: (model: M) => Sub): React.ComponentType<Props>;
+  subscriptions: (model: M) => Sub
+): React.ComponentType<Props>;
 
-export function updaterFor<M extends Msg>(updater: (msg: M) => void, Msg: MsgConstructor): Updater;
+export function updaterFor<M extends Msg>(
+  updater: (msg: M) => void,
+  Msg: MsgConstructor
+): Updater;
 
 export interface ProgramProps {
   Component: any;
