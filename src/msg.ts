@@ -1,19 +1,31 @@
-interface Msg {
+import SumType from "sums-up";
+
+type ClassicMsg = {
   tag: string;
-  msg?: Msg;
-}
+  msg?: ClassicMsg;
+};
+
+type Msg = ClassicMsg | SumType<any>;
 
 type MsgConstructor = (a?: any) => Msg;
 
+function isClassicMsg(msg: Msg): msg is ClassicMsg {
+  return "tag" in msg;
+}
+
 function msgToString(msg: Msg) {
-  let path = msg.tag;
+  if (isClassicMsg(msg)) {
+    let path = msg.tag;
 
-  while (msg.msg) {
-    path += "/" + msg.msg.tag;
-    msg = msg.msg;
+    while (msg.msg) {
+      path += "/" + msg.msg.tag;
+      msg = msg.msg;
+    }
+
+    return path;
+  } else {
+    return msg.toString();
   }
-
-  return path;
 }
 
 export { Msg, MsgConstructor, msgToString };
